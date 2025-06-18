@@ -189,13 +189,18 @@ void MB_1r2t::parse_packet()
             break;
         }
 
-        if (m_packet.type == SCAN_DONE) {
+        //if (m_packet.type == SCAN_DONE) {
+        //    scan_done();
+        //} else if (m_packet.type == SCAN_DATA) {
+        //    scan_data();
+        //} else {
+        //    // NOTE: This can be a sign if rotation is blocked.
+        //    RCLCPP_ERROR(get_logger(), "Unknown packet type: %02X", m_packet.type);
+        //}
+        if (m_packet.type & 0x1) {
             scan_done();
-        } else if (m_packet.type == SCAN_DATA) {
-            scan_data();
         } else {
-            // NOTE: This can be a sign if rotation is blocked.
-            RCLCPP_ERROR(get_logger(), "Unknown packet type: %02X", m_packet.type);
+            scan_data();
         }
 
         m_state = SYNC0;
